@@ -1,3 +1,5 @@
-from plc.simulator import updateRegister
+from plc.simulator import startSimulator
+startSimulator()
 
-updateRegister()
+while True:
+    pass

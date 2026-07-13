@@ -1,25 +1,53 @@
 import random
 import time
+import threading
 
-reg={"Temperature":30,
-     "Pressure":100,
-     "Tank Level":70,
-     "Pump state":1
-    }
+TEMP_REG=0
+PRESSURE_REG=1
+LEVEL_REG=2
+PUMP_REG=3
 
+reg=[30,100,70,1]
 def updateRegister():
     while True:
-        reg["Temperature"]+=random.randint(-1,1)
-        reg["Pressure"]+=random.randint(-2,2)
         
-        if reg["Pump state"]:
-            reg["Tank Level"]+=random.randint(0,2)
+        if reg[PUMP_REG]:
+            reg[TEMP_REG]+=random.randint(0,1)
         else:
-            reg["Tank Level"]-=random.randint(0,2)
-        reg["Tank Level"]=max(0,min(100, reg["Tank Level"]))
+            reg[TEMP_REG]-=random.randint(0,1)
+        reg[TEMP_REG]=max(20,min(40, reg[TEMP_REG]))
+
+
+
+        if reg[PUMP_REG]:
+            reg[PRESSURE_REG]+=random.randint(0,2)
+        else:
+            reg[PRESSURE_REG]-=random.randint(0,2)
+        reg[PRESSURE_REG]=max(80,min(120, reg[PRESSURE_REG]))
+
+
+
+        if reg[PUMP_REG]:
+            reg[LEVEL_REG]+=random.randint(0,2)
+        else:
+            reg[LEVEL_REG]-=random.randint(0,2)
+        reg[LEVEL_REG]=max(0,min(100, reg[LEVEL_REG]))
+
 
         if random.random() <0.1:
-            reg["Pump state"]^=1
-        print(reg)
+            reg[PUMP_REG]^=1
+        
+        print(
+            f"Temp: {reg[TEMP_REG]}°C | "
+            f"Pressure: {reg[PRESSURE_REG]} PSI | "
+            f"Level: {reg[LEVEL_REG]}% | "
+            f"Pump: {'ON' if reg[PUMP_REG] else 'OFF'}"
+            )
+
 
         time.sleep(1)
+
+
+def startSimulator():
+    thread=threading.Thread(target=updateRegister,daemon=True)
+    thread.start()
