@@ -1,3 +1,1 @@
 from plc.simulator import updateRegister
-
-updateRegister()
