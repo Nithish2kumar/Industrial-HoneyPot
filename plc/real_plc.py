@@ -1,19 +1,19 @@
 from pymodbus.server import StartTcpServer
-from pymodbus.datastore import (ModbusSequentialDatablock,ModbusDeviceContext,ModbusServerContext)
+from pymodbus.datastore import (ModbusSequentialDataBlock,ModbusSlaveContext,ModbusServerContext)
 
 from plc.simulator import (reg,startSimulator)
 
 import threading
 import time
 
-store=ModbusSequentialDatablock(address=0,values=[0]*10)
-plcdevice=ModbusDeviceContext(hr=store)
-context=ModbusServerContext(devices=plcdevice,single=True)\
+holdingReg=ModbusSequentialDataBlock(0,[0]*10)
+store=ModbusSlaveContext(hr=holdingReg)
+context=ModbusServerContext(slaves=store,single=True)
 
 def sync_reg():
     while True:
         for adr, val in enumerate(reg):
-            store.setValues(adr,[val])
+            holdingReg.setValues(adr,[val])
         time.sleep(1)
 
 def startrealPLC():
