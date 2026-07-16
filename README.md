@@ -55,11 +55,11 @@ This project implements a deception-based architecture where a gateway continuou
 
 ## 🌐 Phase 2 — Gateway
 
-- [ ] TCP Proxy
-- [ ] Client connection handler
-- [ ] Forward packets to Real PLC
-- [ ] Receive PLC responses
-- [ ] Forward responses back to client
+- [x] TCP Proxy
+- [x] Client connection handler
+- [x] Forward packets to Real PLC
+- [x] Receive PLC responses
+- [x] Forward responses back to client
 - [ ] Support multiple clients
 
 ---
