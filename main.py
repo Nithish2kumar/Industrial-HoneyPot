@@ -1,5 +1,3 @@
-from plc.simulator import startSimulator
-startSimulator()
+from plc.real_plc import startrealPLC
 
-while True:
-    pass
+startrealPLC()

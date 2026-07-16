@@ -22,7 +22,7 @@ def startrealPLC():
     print("Starting Reg synchronizatiom...")
     threading.Thread(target=sync_reg,daemon=True).start()
     print("Starting TCP server...")
-    StartTcpServer(context=context,address=("0.0.0.0",5020))
+    StartTcpServer(context=context,address=("0.0.0.0",502))
 
 if __name__ =="__main__":
     startrealPLC()
