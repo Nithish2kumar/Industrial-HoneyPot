@@ -10,10 +10,16 @@ def startProxy():
     print(f"Gateway is listening on {host}:{port}")
     while True:
         clientSocket, clientAddress=server.accept()
+        print(f"Client Connected: {clientAddress}")
         plcSocket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         plcSocket.connect(("127.0.0.1",502))
         print("Connected to Real PLC")
-        print(f"Client Connected: {clientAddress}")
+        while True:
+            request=clientSocket.recv(1024)
+            plcSocket.sendall(request)
+            response=plcSocket.recv(1024)
+            clientSocket.sendall(response)
+        
         
         
 
