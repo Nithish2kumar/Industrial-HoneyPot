@@ -7,7 +7,7 @@ venv/
 env/
 
 .vscode/
-
+.idea/
 *.log
 
 *.db
