@@ -19,7 +19,8 @@ def startProxy():
             request=clientSocket.recv(1024)
             plcSocket.sendall(request)
             response=plcSocket.recv(1024)
-            parse(request)
+            res=parse(request)
+            print(res)
             clientSocket.sendall(response)
         
         

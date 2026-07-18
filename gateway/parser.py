@@ -7,12 +7,23 @@ def parse(data):
     fncode = b[7]
     addr= int.from_bytes(b[8:10], "big")
     count = int.from_bytes(b[10:12], "big")
-    return {
-        "transaction_id": tranID,
-        "protocol_id": protocolID,
-        "length": length,
-        "unit_id":unit,
-        "function_code":fncode,
-        "address":addr,
-        "count":count
-    }
+    if fncode==3:
+        return {
+            "transaction_id": tranID,
+            "protocol_id": protocolID,
+            "length": length,
+            "unit_id":unit,
+            "function_code":fncode,
+            "address":addr,
+            "count":count
+        }
+    else:
+        return {
+            "transaction_id": tranID,
+            "protocol_id": protocolID,
+            "length": length,
+            "unit_id": unit,
+            "function_code": fncode,
+            "address": addr,
+            "value": count
+        }
