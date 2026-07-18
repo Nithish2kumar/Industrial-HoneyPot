@@ -17,13 +17,18 @@ def startProxy():
         print("Connected to Real PLC")
         while True:
             request=clientSocket.recv(1024)
+            if not request:
+                print("Client Disconnected")
+                break
             plcSocket.sendall(request)
             response=plcSocket.recv(1024)
             res=parse(request)
             print(res)
             clientSocket.sendall(response)
         
-        
+        clientSocket.close()
+        plcSocket.close()
+        print("Connection Closed")
         
 
 if __name__=="__main__":
