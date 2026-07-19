@@ -1,4 +1,6 @@
 import  socket
+
+from detector import detect
 from parser import parse
 
 host="0.0.0.0"
@@ -27,8 +29,12 @@ def handleRequest(clientSocket,plcSocket):
         plcSocket.sendall(request)
         response = plcSocket.recv(1024)
         res = parse(request)
-        print(res)
-        clientSocket.sendall(response)
+        manual=detect(res)
+        if manual=="OK":
+            clientSocket.sendall(response)
+        else:
+            print("Request dropped")
+
 
     clientSocket.close()
     plcSocket.close()
