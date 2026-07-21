@@ -15,12 +15,13 @@ def startProxy():
         clientSocket, clientAddress = server.accept()
         print(f"Client Connected: {clientAddress}")
         plcSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        fakeplcSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         plcSocket.connect(("127.0.0.1", 1502))
         print("Connected to Real PLC")
-        handleRequest(clientSocket, plcSocket)
+        handleRequest(clientSocket, plcSocket,fakeplcSocket)
 
 
-def handleRequest(clientSocket,plcSocket):
+def handleRequest(clientSocket,plcSocket,fakeplcSocket):
     while True:
         request = clientSocket.recv(1024)
         if not request:
@@ -34,6 +35,20 @@ def handleRequest(clientSocket,plcSocket):
             clientSocket.sendall(response)
         else:
             print("Redirecting to Honeypot.")
+            fakeplcSocket.connect(("127.0.0.1",2502))
+            fakeplcSocket.sendall(request)
+            fakeresponse = fakeplcSocket.recv(1024)
+            clientSocket.sendall(fakeresponse)
+            while True:
+                request = clientSocket.recv(1024)
+                if not request:
+                    print("Client Disconnected")
+                    break
+                fakeplcSocket.sendall(request)
+                fakeresponse = fakeplcSocket.recv(1024)
+                clientSocket.sendall(fakeresponse)
+
+
 
 
     clientSocket.close()
