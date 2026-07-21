@@ -4,7 +4,7 @@ from detector import detect
 from parser import parse
 
 host="0.0.0.0"
-port=5020
+port=502
 
 def startProxy():
     server=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,7 +15,7 @@ def startProxy():
         clientSocket, clientAddress = server.accept()
         print(f"Client Connected: {clientAddress}")
         plcSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        plcSocket.connect(("127.0.0.1", 502))
+        plcSocket.connect(("127.0.0.1", 1502))
         print("Connected to Real PLC")
         handleRequest(clientSocket, plcSocket)
 
@@ -29,11 +29,11 @@ def handleRequest(clientSocket,plcSocket):
         plcSocket.sendall(request)
         response = plcSocket.recv(1024)
         res = parse(request)
-        manual=detect(res)
-        if manual=="OK":
+        decision=detect(res)
+        if decision=="ALLOW":
             clientSocket.sendall(response)
         else:
-            print("Request dropped")
+            print("Redirecting to Honeypot.")
 
 
     clientSocket.close()

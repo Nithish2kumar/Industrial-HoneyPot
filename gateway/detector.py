@@ -4,6 +4,6 @@ def detect(parse):
     print(packet)
     risk=calculate(packet)
     if risk>=40:
-        return "DROP"
+        return "REDIRECT"
     
-    return "OK"
+    return "ALLOW"
