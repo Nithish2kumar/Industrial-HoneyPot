@@ -70,14 +70,14 @@ This project implements a deception-based architecture where a gateway continuou
 - [ ] Detect excessive polling
 - [ ] Detect register scanning
 - [ ] Detect unauthorized writes
-- [ ] Detect invalid function codes
+- [x] Detect invalid function codes
 - [ ] Detect malformed packets
 
 ---
 
 ## ⚠️ Phase 4 — Risk Engine
 
-- [ ] Risk score calculation
+- [x] Risk score calculation
 - [ ] Per-IP tracking
 - [ ] Risk threshold
 - [ ] Automatic risk decay
@@ -87,20 +87,20 @@ This project implements a deception-based architecture where a gateway continuou
 
 ## 🍯 Phase 5 — Honeypot PLC
 
-- [ ] Fake PLC implementation
-- [ ] Fake industrial process
-- [ ] Fake sensor values
-- [ ] Accept attacker writes
+- [x] Fake PLC implementation
+- [x] Fake industrial process
+- [x] Fake sensor values
+- [x] Accept attacker writes
 - [ ] Log every interaction
 
 ---
 
 ## 🎭 Phase 6 — Deception Engine
 
-- [ ] Redirect suspicious clients
-- [ ] Transparent forwarding
+- [x] Redirect suspicious clients
+- [x] Transparent forwarding
 - [ ] Session persistence
-- [ ] Redirect based on risk score
+- [x] Redirect based on risk score
 
 ---
 
