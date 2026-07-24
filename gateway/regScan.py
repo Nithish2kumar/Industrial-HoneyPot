@@ -1,6 +1,6 @@
 import time
 
-from gateway.proxy import startProxy
+from proxy import startProxy
 
 clientIP = startProxy()
 

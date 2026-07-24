@@ -20,6 +20,7 @@ def startProxy():
         print("✅ Connected to Real PLC")
         print("---------------")
         handleRequest(clientSocket, plcSocket,fakeplcSocket)
+        return clientAddress
 
 
 def handleRequest(clientSocket,plcSocket,fakeplcSocket):
