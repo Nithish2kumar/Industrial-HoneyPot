@@ -6,8 +6,10 @@ def detectScan(clientIP):
 
     if clientIP in lastIP:
         interval=now-lastIP[clientIP]
-        print(f"{clientIP}:{interval:.3f} sec")
+        if interval<3:
+            return "Possible"
     else:
         print(f"{clientIP}: First packet")
     lastIP[clientIP]=now
+
 
