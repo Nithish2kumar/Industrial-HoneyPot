@@ -1,5 +1,5 @@
 import  socket
-
+from regScan import *
 from detector import detect
 from parser import parse
 
@@ -13,19 +13,20 @@ def startProxy():
     print(f"Gateway is listening on {host}:{port}")
     while True:
         clientSocket, clientAddress = server.accept()
+        clientIP=clientAddress[0]
         print(f"Client Connected: {clientAddress}")
         plcSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         fakeplcSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         plcSocket.connect(("127.0.0.1", 1502))
         print("✅ Connected to Real PLC")
         print("---------------")
-        handleRequest(clientSocket, plcSocket,fakeplcSocket)
-        return clientAddress
+        handleRequest(clientSocket, plcSocket,fakeplcSocket,clientIP)
 
 
-def handleRequest(clientSocket,plcSocket,fakeplcSocket):
+def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
     while True:
         request = clientSocket.recv(1024)
+        detectScan(clientIP)
         if not request:
             print("❌  Client Disconnected")
             print("---------------")

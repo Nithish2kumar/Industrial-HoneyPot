@@ -1,17 +1,8 @@
 import time
 
-from proxy import startProxy
-
-clientIP = startProxy()
-
-
-lastIP={
-
-}
-
-def detectScan():
+lastIP={}
+def detectScan(clientIP):
     now = time.time()
-
 
     if clientIP in lastIP:
         interval=now-lastIP[clientIP]
@@ -19,3 +10,4 @@ def detectScan():
     else:
         print(f"{clientIP}: First packet")
     lastIP[clientIP]=now
+
