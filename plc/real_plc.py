@@ -13,7 +13,7 @@ context=ModbusServerContext(slaves=store,single=True)
 def sync_reg():
     while True:
         for adr, val in enumerate(reg):
-            holdingReg.setValues(adr,[val])
+            holdingReg.setValues(adr+1,[val])
         time.sleep(1)
 
 def startrealPLC():

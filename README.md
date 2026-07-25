@@ -68,7 +68,7 @@ This project implements a deception-based architecture where a gateway continuou
 
 - [x] Parse Modbus packets
 - [ ] Detect excessive polling
-- [ ] Detect register scanning
+- [x] Detect register scanning
 - [ ] Detect unauthorized writes
 - [x] Detect invalid function codes
 - [ ] Detect malformed packets
@@ -99,7 +99,7 @@ This project implements a deception-based architecture where a gateway continuou
 
 - [x] Redirect suspicious clients
 - [x] Transparent forwarding
-- [ ] Session persistence
+- [x] Session persistence
 - [x] Redirect based on risk score
 
 ---
