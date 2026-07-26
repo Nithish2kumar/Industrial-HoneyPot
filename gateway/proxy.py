@@ -1,4 +1,6 @@
 import  socket
+
+from unauthwrite import unauth
 from regScan import *
 from detector import detect
 from parser import parse
@@ -35,6 +37,8 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
         plcSocket.sendall(request)
         response = plcSocket.recv(1024)
         res = parse(request)
+        fc=res["function_code"]
+        unauthres=unauth(clientIP,fc)
         print("--------------------")
         print(f"Transaction ID: {res["transaction_id"]}")
         print(f"Protocol ID: {res["protocol_id"]}")
@@ -48,10 +52,15 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
             print(f"Value: {res["value"]}")
 
         decision=detect(res)
-        if decision=="ALLOW" and not detres=="Possible":
+        if decision=="ALLOW" and not detres=="Possible" and not unauthres=="UNAUTH":
             clientSocket.sendall(response)
         else:
-            print("⚠️  Redirecting to Honeypot.")
+            if unauthres=="UNAUTH":
+                print("⚠️  Redirecting to Honeypot due to Unauthorized write.")
+            elif detres=="Possible":
+                print("⚠️  Redirecting to Honeypot due to Register scan.")
+            elif decision=="ALLOW":
+                print("⚠️  Redirecting to Honeypot due to High risk.")
             fakeplcSocket.connect(("127.0.0.1",2502))
             fakeplcSocket.sendall(request)
             fakeresponse = fakeplcSocket.recv(1024)
