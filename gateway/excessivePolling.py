@@ -8,10 +8,9 @@ def polling(clientIP,register):
 
     if key in lastrequest:
         interval=now-lastrequest[key]
-        if interval<0.1:
+        print(interval)
+        if interval<2:
             return "Polling"
 
-    lastrequest[clientIP]=now
-    return None
-
+    lastrequest[key]=now
 
