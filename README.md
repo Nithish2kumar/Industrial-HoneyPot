@@ -67,7 +67,7 @@ This project implements a deception-based architecture where a gateway continuou
 ## 🔍 Phase 3 — Detection Engine
 
 - [x] Parse Modbus packets
-- [ ] Detect excessive polling
+- [x] Detect excessive polling
 - [x] Detect register scanning
 - [x] Detect unauthorized writes
 - [x] Detect invalid function codes
