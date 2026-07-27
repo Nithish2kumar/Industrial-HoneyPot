@@ -60,12 +60,12 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
         else:
             if unauthres=="UNAUTH":
                 print("⚠️  Redirecting to Honeypot due to Unauthorized write.")
-            elif detres=="Possible":
-                print("⚠️  Redirecting to Honeypot due to Register scan.")
-            elif decision=="ALLOW":
-                print("⚠️  Redirecting to Honeypot due to High risk.")
             elif pollingRes=="Polling":
                 print("⚠️  Redirecting to Honeypot due to Excessive polling.")
+            elif decision=="REDIRECT":
+                print("⚠️  Redirecting to Honeypot due to High risk.")
+            elif detres=="Possible":
+                print("⚠️  Redirecting to Honeypot due to Register scan.")
             fakeplcSocket.connect(("127.0.0.1",2502))
             fakeplcSocket.sendall(request)
             fakeresponse = fakeplcSocket.recv(1024)
