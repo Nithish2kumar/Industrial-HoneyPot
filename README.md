@@ -69,7 +69,7 @@ This project implements a deception-based architecture where a gateway continuou
 - [x] Parse Modbus packets
 - [ ] Detect excessive polling
 - [x] Detect register scanning
-- [ ] Detect unauthorized writes
+- [x] Detect unauthorized writes
 - [x] Detect invalid function codes
 - [ ] Detect malformed packets
 
