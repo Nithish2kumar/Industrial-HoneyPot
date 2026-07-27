@@ -1,6 +1,7 @@
 import  socket
 
 from unauthwrite import unauth
+from excessivePolling import polling
 from regScan import *
 from detector import detect
 from parser import parse
@@ -38,7 +39,9 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
         response = plcSocket.recv(1024)
         res = parse(request)
         fc=res["function_code"]
+        ad=res["address"]
         unauthres=unauth(clientIP,fc)
+        pollingRes=polling(clientIP,ad)
         print("--------------------")
         print(f"Transaction ID: {res["transaction_id"]}")
         print(f"Protocol ID: {res["protocol_id"]}")
@@ -52,7 +55,7 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
             print(f"Value: {res["value"]}")
 
         decision=detect(res)
-        if decision=="ALLOW" and not detres=="Possible" and not unauthres=="UNAUTH":
+        if decision=="ALLOW" and not pollingRes=="Polling" and not detres=="Possible" and not unauthres=="UNAUTH" :
             clientSocket.sendall(response)
         else:
             if unauthres=="UNAUTH":
@@ -61,6 +64,8 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
                 print("⚠️  Redirecting to Honeypot due to Register scan.")
             elif decision=="ALLOW":
                 print("⚠️  Redirecting to Honeypot due to High risk.")
+            elif pollingRes=="Polling":
+                print("⚠️  Redirecting to Honeypot due to Excessive polling.")
             fakeplcSocket.connect(("127.0.0.1",2502))
             fakeplcSocket.sendall(request)
             fakeresponse = fakeplcSocket.recv(1024)
