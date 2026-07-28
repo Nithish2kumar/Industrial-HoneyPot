@@ -1,5 +1,6 @@
 import  socket
 
+from malform import malformFN
 from unauthwrite import unauth
 from excessivePolling import polling
 from regScan import *
@@ -38,6 +39,7 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
         plcSocket.sendall(request)
         response = plcSocket.recv(1024)
         res = parse(request)
+        malres=malformFN(res)
         fc=res["function_code"]
         ad=res["address"]
         unauthres=unauth(clientIP,fc)
@@ -55,11 +57,13 @@ def handleRequest(clientSocket,plcSocket,fakeplcSocket,clientIP):
             print(f"Value: {res["value"]}")
 
         decision=detect(res)
-        if decision=="ALLOW" and not pollingRes=="Polling" and not detres=="Possible" and not unauthres=="UNAUTH" :
+        if decision=="ALLOW" and not malres=="MALFORM" and not pollingRes=="Polling" and not detres=="Possible" and not unauthres=="UNAUTH" :
             clientSocket.sendall(response)
         else:
             if unauthres=="UNAUTH":
                 print("⚠️  Redirecting to Honeypot due to Unauthorized write.")
+            elif malres=="MALFORM":
+                print("⚠️  Redirecting to Honeypot due to Malformed packets.")
             elif pollingRes=="Polling":
                 print("⚠️  Redirecting to Honeypot due to Excessive polling.")
             elif decision=="REDIRECT":
