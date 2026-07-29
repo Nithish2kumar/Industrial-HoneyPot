@@ -9,7 +9,7 @@ env/
 .vscode/
 .idea/
 *.log
-
+gateway/unauthwrite.py
 *.db
 
 .env

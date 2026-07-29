@@ -71,7 +71,7 @@ This project implements a deception-based architecture where a gateway continuou
 - [x] Detect register scanning
 - [x] Detect unauthorized writes
 - [x] Detect invalid function codes
-- [ ] Detect malformed packets
+- [x] Detect malformed packets
 
 ---
 
